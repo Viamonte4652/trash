@@ -1452,7 +1452,7 @@ local def = {
         theme = 5,
         adminpass = "",
         passwordautoadmin = false,
-        adminlvl = 0,
+        adminlvl = 8,
         organisationafter = false,
         skinafter = false,
         numberskin = 0,
@@ -5791,9 +5791,9 @@ status_clear = false
 local timer_freeze = os.time()
 local waiting_freeze = false
 local flag = imgui.InputTextFlags.Password
-local firstauth = false
+local firstauth = true
 goAuth = false
-isPermission = false
+isPermission = true
 local startquest = false
 startGPS = false
 headerGPS = ""
@@ -6348,7 +6348,7 @@ function main()
     sampRegisterChatCommand(u8:decode(mainini['calc'].v),cmd_open_calc)
     sampRegisterChatCommand(u8:decode(mainini['arepcar'].v),cmd_open_arepcar)
 
-    authacc(auth['token'].v)
+    --authacc(auth['token'].v)
     lua_thread.create(control_afk)
     lua_thread.create(sender_admins)
     lua_thread.create(sender_leaders)
@@ -6365,10 +6365,10 @@ function main()
     lua_thread.create(airb)
     lua_thread.create(clickwarp)
     lua_thread.create(getfps)
-    lua_thread.create(auther)
-    lua_thread.create(autherGO)
-    lua_thread.create(requestStatistic)
-    lua_thread.create(aonlinerequest)
+    --lua_thread.create(auther)
+    --lua_thread.create(autherGO)
+    --lua_thread.create(requestStatistic)
+    --lua_thread.create(aonlinerequest)
     lua_thread.create(auto_lovlia)
     lua_thread.create(render_near)
     lua_thread.create(updater_players)
@@ -6518,20 +6518,6 @@ function main()
 
     
         imgui.ShowCursor = false
-
-
-
-
-        
-        if serverlist[ip .. ':' .. port] ~= nil and serverlist[ip .. ':' .. port] ~= mainini['servernumber'].v then
-            ini.main.servernumber,mainini['servernumber'].v = serverlist[ip .. ':' .. port], serverlist[ip .. ':' .. port]
-            save()
-        elseif serverlist[ip .. ':' .. port] == nil then
-            for i = 1,10 do
-                sampAddChatMessage('ROBO-TOOLS ДОСТУПЕН ТОЛЬКО НА СЕРВЕРАХ ARIZONA RP SAMP',0xFFF6361C)
-            end
-            thisScript():unload()
-        end
 
         if changePositions['fJetPack'] then
             sampToggleCursor(true)
@@ -8433,7 +8419,7 @@ function main_window()
         
         if imgui.ButtonActivated(windows['general'],fa.ICON_FA_CHALKBOARD .. u8' Главное',imgui.ImVec2(btns_sizeX,btns_sizeY)) then changewexcept('general') end
         --imgui.TutorialHint(u8"Нажмите на любую кнопку для того,\nчтобы открыть раздел", imgui.ImBool(true), 1)
-        if imgui.ButtonActivated(windows['account'],fa.ICON_FA_USER_EDIT .. u8' Профиль',imgui.ImVec2(btns_sizeX,btns_sizeY)) then changewexcept('account') end
+        --if imgui.ButtonActivated(windows['account'],fa.ICON_FA_USER_EDIT .. u8' Профиль',imgui.ImVec2(btns_sizeX,btns_sizeY)) then changewexcept('account') end
         imgui.Separator()
         imgui.CenterText('{6aebc8}Конфигурация')
         imgui.Separator()
@@ -17619,9 +17605,9 @@ function sampev.onServerMessage(color, text)
         if namelvladmin then
             
                 updateWallHack()
-                crackAccept()
-                mainini['adminlvl'].v = adminNamesTable[namelvladmin]
-                ini.main.adminlvl = mainini['adminlvl'].v
+                --crackAccept()
+                --mainini['adminlvl'].v = adminNamesTable[namelvladmin]
+                --ini.main.adminlvl = mainini['adminlvl'].v
                 save()
                 result,idplayer = sampGetPlayerIdByCharHandle(PLAYER_PED)
             lua_thread.create(function()
@@ -21144,7 +21130,6 @@ function getMoveSpeed(heading, speed)
     moveSpeed = {x = math.sin(-math.rad(heading)) * speed, y = math.cos(-math.rad(heading)) * speed, z = -0.0000001} 
     return moveSpeed
 end
-
 
 function crackAccept()
     local args = {}
